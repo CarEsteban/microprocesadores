@@ -5,7 +5,7 @@ using namespace std;
 int main() {
     int dato;
 
-    cout<<"Ingrese un número entre 0 y 35"<<endl;
+    cout<<"Ingrese un numero entre 0 y 35"<<endl;
     cin>>dato;
 
     if (dato<0 || dato>35){
