@@ -4,7 +4,7 @@
 #include <time.h>
 #include <omp.h>
 
-#define puntosTotales 1000000
+#define puntosTotales 2000000000
 
 int puntosCirculo = 0;
 

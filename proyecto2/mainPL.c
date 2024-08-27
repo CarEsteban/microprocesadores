@@ -4,7 +4,7 @@
 #include <math.h>
 #include <time.h>
 
-#define puntosTotales 1000000  // Define el número total de puntos a generar
+#define puntosTotales 2000000000  // Define el número total de puntos a generar
 
 int puntosCirculo = 0;  // Variable global que cuenta los puntos dentro del círculo
 
