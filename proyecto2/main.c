@@ -4,30 +4,30 @@
 #include <math.h>
 #include <time.h>
 
-#define PUNTOS_TOTALES 10000  // Define correctamente la constante
+#define puntosTotales 10000  // Define correctamente la constante
 
 int main(int argc, char const *argv[])
 {
-    int puntos_circulo = 0;
-    double x, y, pi_aproximado;
+    int puntosCirculo = 0;
+    double x, y, piAprox;
 
     // Se inicializa para los números random
     srand(time(NULL));
 
-    for (int i = 0; i < PUNTOS_TOTALES; i++)
+    for (int i = 0; i < puntosTotales; i++)
     {
         x = (double)rand() / RAND_MAX;
         y = (double)rand() / RAND_MAX;
 
         if (x * x + y * y <= 1)
         {
-            puntos_circulo++;
+            puntosCirculo++;
         }
     }
 
     // Asegúrate de que la división se realiza con al menos un número de punto flotante
-    pi_aproximado = 4.0 * puntos_circulo / (double)PUNTOS_TOTALES;
-    printf("El valor aproximado de Pi es: %f\n", pi_aproximado);
+    piAprox = 4.0 * puntosCirculo / (double)puntosTotales;
+    printf("El valor aproximado de Pi es: %f\n", piAprox);
 
     return 0;
 }
