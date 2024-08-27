@@ -44,13 +44,18 @@ double calcularPI(int puntosCirculo, int total_puntos) {
 int main() {
     iniciarVariables();  // Inicializa las variables necesarias
 
-    generarPuntos();  // Genera puntos y cuenta los que caen dentro del círculo
+   double inicio = omp_get_wtime();
+
+   generarPuntos();  // Genera puntos y cuenta los que caen dentro del círculo
+
+   double fin = omp_get_wtime();
 
     // Calcula el valor aproximado de Pi basado en los puntos generados
    double pi_aproximado = calcularPI(puntosCirculo, puntosTotales);
 
    // Muestra el valor aproximado de Pi
    printf("El valor aproximado de Pi es: %f\n", pi_aproximado);
+   printf("Tiempo de ejecucion paralelizada: %f segundos\n", fin - inicio);  // Imprime el tiempo de ejecución"
 
     return 0;  // Indica que el programa finalizó correctamente
 }
