@@ -27,7 +27,8 @@ using namespace std;
 //definir la estructura para los parametros de la funcion
 struct ThreadData {
     long threadID;
-    int numCalc;
+    int inicio;
+    int fin;
 };
 
 
@@ -38,9 +39,47 @@ void* calc_divisibilidad(void* arg){
 
 
     long tID = data->threadID;
-    int numCalc = data->numCalc;
+    int inicio = data->inicio;
+    int fin = data->fin;
 
-    cout << "Hilo " << tID << " procesando hasta el número " << numCalc << endl;
+    cout << "Hilo " << tID << " procesando números de "<<inicio<<" a " << fin << endl;
+
+    //divisible o no entre 2 3 y 5
+    
+    for (int i = inicio; i <= fin; i++) {
+        // Verifica si es divisible por 2, 3 y 5
+        if (i % 2 == 0 && i % 3 == 0 && i % 5 == 0) {
+            cout << "Hilo " << tID << ": " << i << " es divisible por 2, 3 y 5" << endl;
+        }
+        // Verifica si es divisible por 2 y 3
+        else if (i % 2 == 0 && i % 3 == 0) {
+            cout << "Hilo " << tID << ": " << i << " es divisible por 2 y 3" << endl;
+        }
+        // Verifica si es divisible por 2 y 5
+        else if (i % 2 == 0 && i % 5 == 0) {
+            cout << "Hilo " << tID << ": " << i << " es divisible por 2 y 5" << endl;
+        }
+        // Verifica si es divisible por 3 y 5
+        else if (i % 3 == 0 && i % 5 == 0) {
+            cout << "Hilo " << tID << ": " << i << " es divisible por 3 y 5" << endl;
+        }
+        // Verifica si es divisible por 2
+        else if (i % 2 == 0) {
+            cout << "Hilo " << tID << ": " << i << " es divisible por 2" << endl;
+        }
+        // Verifica si es divisible por 3
+        else if (i % 3 == 0) {
+            cout << "Hilo " << tID << ": " << i << " es divisible por 3" << endl;
+        }
+        // Verifica si es divisible por 5
+        else if (i % 5 == 0) {
+            cout << "Hilo " << tID << ": " << i << " es divisible por 5" << endl;
+        }
+    }
+
+
+
+
 
     return nullptr;
 }
@@ -53,8 +92,7 @@ int main(){
     int numCalc,numThreads, rc;
 
     //declaracion de variables para los hilos junto a los atributos
-    pthread_t tid;
-
+    
     pthread_attr_t attr;
 
     pthread_attr_init(&attr);
@@ -70,11 +108,26 @@ int main(){
     pthread_t tids[numThreads];
     ThreadData threadData[numThreads];
 
+
+    //calculo para dividir la cantidad de numeros en los hilos
+    int rangoPorHilo = numCalc / numThreads;
+    int resto = numCalc % numThreads;
+
+    int inicio = 0;
     //creacion de los hilos
     for(i=0; i<numThreads; i++){
         
         threadData[i].threadID = i;
-        threadData[i].numCalc = numCalc;
+        threadData[i].inicio = inicio;
+        threadData[i].fin = inicio+ rangoPorHilo - 1;
+
+        //para los sobrantes
+        if(resto>0){
+            threadData[i].fin+=1;
+            resto--;
+        }
+
+        inicio = threadData[i].fin + 1 ;
 
         rc = pthread_create(&tids[i],&attr,calc_divisibilidad,(void *)&threadData[i]);
 
