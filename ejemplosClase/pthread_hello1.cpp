@@ -31,7 +31,7 @@ void *say_hello(void *threadNumber) {
 	// Casting del parametro tipo void a la variable local tipo long
 	tID = (long)threadNumber;
   printf("Hello thread: %d\n", tID);
-  pthread_exit(NULL);
+  pthread_exit(nullptr);
 }
 /* -----------------------------------------------------------
 ** Programa principal
@@ -62,7 +62,7 @@ int main() {
 	**
 	** pthread_create(&id,NULL,subrutine,(void *)parameter
 	** ---------------------------------------------------------*/
-	rc = pthread_create(&tid, &attr, say_hello, (void *)i);
+	  rc = pthread_create(&tid, &attr, say_hello, (void *)i);
 	
 	// La variable rc recibe errores en formato entero
     if (rc) {              
@@ -71,7 +71,7 @@ int main() {
     }
 
     // Esperar a que cada thread termine en orden
-    rc = pthread_join(tid, NULL);
+    rc = pthread_join(tid, nullptr);
     if (rc) {
       printf("ERROR; return code from pthread_join() is %d\n", rc);
       exit(-1);
@@ -79,6 +79,6 @@ int main() {
   }
   // Liberar espacios de memoria utilizados para atributo
   pthread_attr_destroy(&attr);
-  pthread_exit(NULL);
+  pthread_exit(nullptr);
 
 }
