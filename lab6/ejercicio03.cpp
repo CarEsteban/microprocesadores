@@ -23,16 +23,23 @@ using namespace std;
 
 struct hilo_data {
     int n;
+    int threadID;
+
 };
 
 void *calc_funcion(void *arg){
     hilo_data *data = (hilo_data *)arg;
 
     int n = data-> n;
+    int tID =  data->threadID;
 
-    double result = 1.0 / (n * (n+1));
+    double *resultado = new double;
+    *resultado = 1.0 / (n * (n+1));
 
-    return nullptr;
+    printf("Hilo %d obtuvo el resultado: %f\n", tID, *resultado);
+
+    pthread_exit((void *)resultado);  
+    
 }
 
 
@@ -41,7 +48,8 @@ int main(){
 
     //variables a usar
     long i;
-    int numMax,numThreads=numMax, rc;
+    int numMax,numThreads, rc;
+    double sumaTotal = 0.0;
 
     //declaracion de variables para los hilos junto a los atributos
     
@@ -52,21 +60,22 @@ int main(){
     pthread_attr_setdetachstate(&attr,PTHREAD_CREATE_JOINABLE);
 
     //preguntas al usuario
-    cout<<"Ingrese el numero máximo para usars en la serie geometrica"<<endl;
+    cout<<"Ingrese el numero máximo para usar en la serie geometrica"<<endl;
     cin>>numMax;
 
-    pthread_t tids[numThreads];
+    numThreads = numMax;  
 
+    pthread_t tids[numThreads];
+    hilo_data hilo_data[numThreads];
 
 
     //creacion de los hilos
     for(i=0; i<numThreads; i++){
         
-        hilo_data *data = new hilo_data;
+        hilo_data[i].threadID = i;
+        hilo_data[i].n = i + 1;
 
-        data->n=i+1;
-
-        rc = pthread_create(&tids[i],&attr,calc_funcion,(void *)&data);
+        rc = pthread_create(&tids[i],&attr,calc_funcion,(void *)&hilo_data[i]);
 
 
 
@@ -78,8 +87,16 @@ int main(){
     }
     
     for(i=0; i<numThreads; i++){
-        pthread_join(tids[i], nullptr);
+        void* resultadoParcial;
+
+        pthread_join(tids[i], &resultadoParcial);
+
+        sumaTotal += *(double *)resultadoParcial;
+
+        delete (double *)resultadoParcial;
     }
+
+    printf("La suma total de la serie es: %f\n", sumaTotal);
 
     return 0;
 
