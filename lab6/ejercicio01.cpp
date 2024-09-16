@@ -21,6 +21,8 @@ usuario.
 
 #include <pthread.h>
 #include <iostream>
+#include <stdlib.h>
+#include <stdio.h>
 
 using namespace std;
 
@@ -38,45 +40,43 @@ void* calc_divisibilidad(void* arg){
     ThreadData* data = (ThreadData*)arg;
 
 
-    long tID = data->threadID;
+    int tID = data->threadID;
     int inicio = data->inicio;
     int fin = data->fin;
 
-    cout << "Hilo " << tID << " procesando números de "<<inicio<<" a " << fin << endl;
+    printf("Hilo %d procesando números de %d a %d\n", tID, inicio, fin);
 
-    //divisible o no entre 2 3 y 5
-    
+    //divisible o no entre 2, 3 y 5
     for (int i = inicio; i <= fin; i++) {
         // Verifica si es divisible por 2, 3 y 5
         if (i % 2 == 0 && i % 3 == 0 && i % 5 == 0) {
-            cout << "Hilo " << tID << ": " << i << " es divisible por 2, 3 y 5" << endl;
+            printf("Hilo %d: %d es divisible por 2, 3 y 5\n", tID, i);
         }
         // Verifica si es divisible por 2 y 3
         else if (i % 2 == 0 && i % 3 == 0) {
-            cout << "Hilo " << tID << ": " << i << " es divisible por 2 y 3" << endl;
+            printf("Hilo %d: %d es divisible por 2 y 3\n", tID, i);
         }
         // Verifica si es divisible por 2 y 5
         else if (i % 2 == 0 && i % 5 == 0) {
-            cout << "Hilo " << tID << ": " << i << " es divisible por 2 y 5" << endl;
+            printf("Hilo %d: %d es divisible por 2 y 5\n", tID, i);
         }
         // Verifica si es divisible por 3 y 5
         else if (i % 3 == 0 && i % 5 == 0) {
-            cout << "Hilo " << tID << ": " << i << " es divisible por 3 y 5" << endl;
+            printf("Hilo %d: %d es divisible por 3 y 5\n", tID, i);
         }
         // Verifica si es divisible por 2
         else if (i % 2 == 0) {
-            cout << "Hilo " << tID << ": " << i << " es divisible por 2" << endl;
+            printf("Hilo %d: %d es divisible por 2\n", tID, i);
         }
         // Verifica si es divisible por 3
         else if (i % 3 == 0) {
-            cout << "Hilo " << tID << ": " << i << " es divisible por 3" << endl;
+            printf("Hilo %d: %d es divisible por 3\n", tID, i);
         }
         // Verifica si es divisible por 5
         else if (i % 5 == 0) {
-            cout << "Hilo " << tID << ": " << i << " es divisible por 5" << endl;
+            printf("Hilo %d: %d es divisible por 5\n", tID, i);
         }
     }
-
 
 
 
