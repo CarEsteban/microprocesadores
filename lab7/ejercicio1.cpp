@@ -1,7 +1,7 @@
 /*---------------------------------------
 * UNIVERSIDAD DEL VALLE DE GUATEMALA
 * Sistemas Operativos
-* Autor: Esteban Cárcamo
+* Autor: Esteban Cárcamo, Nicolás Concuá
 * Fecha: 2024/09/24
 *
 * ---------------------------------------
@@ -17,6 +17,10 @@
  
 using namespace std;
 
+pthread_mutex_t candado;
+pthread_cond_t cond;
+bool julioComp = false;
+
 struct Producto {
     string nombre;
     double precioUnitario;
@@ -27,20 +31,30 @@ struct Producto {
     int vendidoMes2;
 };
 
+struct Resultados{
+    double ventasJulio;
+    double utilidadJulio;
+    double ventasAgosto;
+    double utilidadAgosto;
+};
+
+//pasar multiples parametros a args
+
+struct Args{
+    Producto *producto;
+    Resultados *resultados;
+};
 
 void *calc_products(void *args){
 
-}
+    Args *data = (Args*)args;
+    Producto *producto = data -> producto;
+    Resultados *resultados = data -> resultados;
 
-
-void *agosto(void *args){
-
-}
-
-
-void *julio(void *args){
+    pthread_mutex_lock(&candado);
     
 }
+
 
 
 int main()
@@ -48,7 +62,7 @@ int main()
 
     Producto productos[8] = {
         /*nombre producto, precio unitario, costo fijo, mes, unidades vendidas */
-        {"Porción pastel de chocolate", 60, 20, "julio", 300.0, "agosto", 250.0},
+        {"Porción pastel de chocolate", 60.00, 20.00, "julio", 300, "agosto", 250},
         {"White mocha", 32.00, 19.20, "julio", 400, "agosto", 380},
         {"Café americano 8onz", 22, 13.20, "julio", 1590, "agosto", 800},
         {"Latte 8onz", 24.00, 17.20,"julio", 200, "agosto", 250},
@@ -70,8 +84,17 @@ int main()
 
     pthread_attr_setdetachstate(&attr,PTHREAD_CREATE_JOINABLE);
 
+	pthread_mutex_init(&candado, NULL);
+	pthread_cond_init(&cond, NULL);
 
+    for ( i = 0; i < cantidadProductos; i++)
+    {
+        pthread_create(&ids[i], &attr, calc_products, (void *)&productos[i]);
 
+    }
+    
+
+    
 
 
     return 0;
